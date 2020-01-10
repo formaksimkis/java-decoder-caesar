@@ -2,9 +2,38 @@ package com.epam.nnov.caesar;
 
 import com.epam.nnov.caesar.entity.SimpleAlphabet;
 import com.epam.nnov.caesar.entity.SimpleDecoder;
+import com.epam.nnov.caesar.service.Parser;
 import com.epam.nnov.caesar.service.SimpleParser;
 
+import java.util.List;
+
 public class CaesarDecode {
+
+    // вызывающая функция может использовать интерфейс парсера другой реализации
+    // если тут будет создаваться какой нибудь другой парсер
+    public void parse(Parser parserAlphabet){
+        parserAlphabet.parseAlphabet();
+    }
+
+    // объединил всю последовательность создания объектов и вызовов в этой функции
+    public List<String> decodeText(String fileNameXML, String language, String textToDecode) {
+        SimpleParser parserAlphabetRussian = new SimpleParser(fileNameXML, language);
+        parse(parserAlphabetRussian);
+        SimpleAlphabet alphabetRussian = new SimpleAlphabet(language, parserAlphabetRussian.getLowerCaseLetters(),
+                parserAlphabetRussian.getUpperCaseLetters());
+        SimpleDecoder decoderTextRussian = new SimpleDecoder(alphabetRussian);
+        decoderTextRussian.decodeText(textToDecode);
+        return decoderTextRussian.getDecodeList();
+    }
+
+    // ну и печать вынес отдельно
+    public void printerListResult (List<String> list) {
+        for (String resultDecode : list) {
+            System.out.println(resultDecode);
+        }
+        // просто для разделения
+        System.out.println();
+    }
 
     public static void main(String[] args) {
 
@@ -23,26 +52,12 @@ public class CaesarDecode {
         String languageRussian = "Russian";
         String languageEnglish = "English";
 
-        SimpleParser parserAlphabetRussian = new SimpleParser();
-        parserAlphabetRussian.parseAlphabet(fileNameXML, languageRussian);
-        SimpleAlphabet alphabetRussian = new SimpleAlphabet(languageRussian, parserAlphabetRussian.getLowerCaseLetters(),
-                parserAlphabetRussian.getUpperCaseLetters());
-        SimpleDecoder decoderTextRussian = new SimpleDecoder(alphabetRussian);
-        decoderTextRussian.decodeText(inputTextRussian);
-        for (String resultDecode : decoderTextRussian.getDecodeList()) {
-            System.out.println(alphabetRussian.getNameAlphabet() + ":" + resultDecode);
-        }
+        CaesarDecode caesarDecodeApp = new CaesarDecode();
 
-        System.out.println();
+        // декодируем текст на русском
+        caesarDecodeApp.printerListResult(caesarDecodeApp.decodeText(fileNameXML, languageRussian, inputTextRussian));
 
-        SimpleParser parserAlphabetEnglish = new SimpleParser();
-        parserAlphabetEnglish.parseAlphabet(fileNameXML, languageEnglish);
-        SimpleAlphabet alphabetEnglish = new SimpleAlphabet(languageEnglish, parserAlphabetEnglish.getLowerCaseLetters(),
-                parserAlphabetEnglish.getUpperCaseLetters());
-        SimpleDecoder decoderTextEnglish = new SimpleDecoder(alphabetEnglish);
-        decoderTextEnglish.decodeText(inputTextEnglish);
-        for (String resultDecode : decoderTextEnglish.getDecodeList()) {
-            System.out.println(alphabetEnglish.getNameAlphabet() + ":" + resultDecode);
-        }
+        // декодируем текст на английском
+        caesarDecodeApp.printerListResult(caesarDecodeApp.decodeText(fileNameXML, languageEnglish, inputTextEnglish));
     }
 }

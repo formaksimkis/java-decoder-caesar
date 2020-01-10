@@ -14,23 +14,29 @@ public class SimpleParser implements Parser{
 
     private char[] upperCaseLetters;
     private char[] lowerCaseLetters;
+    private String resource;
+    private String language;
 
-    public SimpleParser() {
+    public SimpleParser(String resource, String language) {
+        this.resource = resource;
+        this.language = language;
     }
 
+    @Override
     public char[] getUpperCaseLetters() {
         return upperCaseLetters;
     }
 
+    @Override
     public char[] getLowerCaseLetters() {
         return lowerCaseLetters;
     }
 
     @Override
-    public void parseAlphabet(String fileName, String language) {
+    public void parseAlphabet() {
         try {
             DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            Document document = documentBuilder.parse(new File(fileName));
+            Document document = documentBuilder.parse(new File(resource));
             Node root = document.getDocumentElement();
             NodeList nodes = root.getChildNodes();
             for (int i = 0; i < nodes.getLength(); i++) {

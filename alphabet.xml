@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <Alphabet>
+    <Russian>
+      <UpperCase>АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ</UpperCase>
+	  <LowerCase>абвгдеёжзийклмнопрстуфхцчшщъыьэюя</LowerCase>
+	</Russian>
+	<English>
+      <UpperCase>ABCDEFGHIJKLMNOPQRSTUVWXYZ</UpperCase>
+	  <LowerCase>abcdefghijklmnopqrstuvwxyz</LowerCase>
+	</English>
+  </Alphabet> 
